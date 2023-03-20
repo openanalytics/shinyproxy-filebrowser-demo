@@ -2,7 +2,7 @@
 
 [Screenshot](#screenshot)
 
-ShinyProxy can run a [Go-based file-browser](https://github.com/filebrowser/filebrowser) 
+ShinyProxy can run a [Go-based file-browser](https://github.com/filebrowser/filebrowser)
 using their [official Docker images](https://hub.docker.com/r/filebrowser/filebrowser).
 
 ## Volume Configuration
@@ -65,7 +65,6 @@ On Kubernetes a PVC can be mounted, for example using [EFS](https://aws.amazon.c
   displayName: File Browser
   containerImage: openanalytics/shinyproxy-filebrowser
   port: 80
-  container-volumes: [ "/tmp/filebrowser-demo:/mnt" ]
   container-env:
     ROOT_PATH: "/srv/Shared"
     PUID: "1000"
