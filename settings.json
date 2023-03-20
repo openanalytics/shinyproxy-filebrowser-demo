@@ -1,0 +1,68 @@
+{
+    "settings": {
+        "signup": false,
+        "createUserDir": false,
+        "defaults": {
+            "scope": ".",
+            "locale": "en",
+            "viewMode": "list",
+            "singleClick": false,
+            "sorting": {
+                "by": "name",
+                "asc": false
+            },
+            "perm": {
+                "admin": false,
+                "execute": false,
+                "create": true,
+                "rename": true,
+                "modify": true,
+                "delete": true,
+                "share": false,
+                "download": true
+            },
+            "commands": [],
+            "hideDotfiles": false,
+            "dateFormat": false
+        },
+        "authMethod": "noauth",
+        "branding": {
+            "name": "",
+            "disableExternal": true,
+            "files": "",
+            "theme": "",
+            "color": ""
+        },
+        "commands": {
+            "after_copy": [],
+            "after_delete": [],
+            "after_rename": [],
+            "after_save": [],
+            "after_upload": [],
+            "before_copy": [],
+            "before_delete": [],
+            "before_rename": [],
+            "before_save": [],
+            "before_upload": []
+        },
+        "shell": [],
+        "rules": []
+    },
+    "server": {
+        "root": "SET_BY_JQ",
+        "baseURL": "SET_BY_JQ",
+        "socket": "",
+        "tlsKey": "",
+        "tlsCert": "",
+        "port": "80",
+        "address": "",
+        "log": "stdout",
+        "enableThumbnails": false,
+        "resizePreview": false,
+        "enableExec": false,
+        "typeDetectionByHeader": false
+    },
+    "auther": {
+        "recaptcha": null
+    }
+}

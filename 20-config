@@ -1,0 +1,12 @@
+#!/usr/bin/with-contenv bash
+
+jq --arg root_path "$ROOT_PATH" \
+   --arg base_url "$SHINYPROXY_PUBLIC_PATH" \
+   '.server.root |= $root_path | .server.baseURL |= $base_url' < /defaults/settings.json.tpl > /defaults/settings.json
+
+filebrowser config import -c /config/settings.json -d /database/filebrowser.db  /defaults/settings.json
+filebrowser users add user user --lockPassword -c /config/settings.json -d /database/filebrowser.db
+
+chown -R abc:abc \
+	/config \
+	/database
