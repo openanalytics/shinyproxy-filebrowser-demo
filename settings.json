@@ -54,7 +54,7 @@
         "socket": "",
         "tlsKey": "",
         "tlsCert": "",
-        "port": "80",
+        "port": "8080",
         "address": "",
         "log": "stdout",
         "enableThumbnails": false,

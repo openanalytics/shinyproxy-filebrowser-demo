@@ -19,8 +19,8 @@ proxy:
   specs:
     - id: filebrowser
       displayName: File Browser
-      containerImage: filebrowser
-      port: 80
+      containerImage: openanalytics/shinyproxy-filebrowser
+      port: 8080
       container-volumes: [ "/tmp/filebrowser-demo:/mnt" ]
       container-env:
         ROOT_PATH: "/mnt"
