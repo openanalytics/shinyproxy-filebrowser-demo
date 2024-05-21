@@ -44,15 +44,17 @@ Create a ShinyProxy configuration file (see [application.yml](application.yml)
 for a complete file)
 
 ```yaml
-- id: filebrowser
-  displayName: File Browser
-  containerImage: openanalytics/shinyproxy-filebrowser
-  port: 80
-  container-volumes: [ "/tmp/filebrowser-demo:/mnt" ]
-  container-env:
-    ROOT_PATH: "/mnt"
-    PUID: "1000"
-    PGID: "1000"
+proxy:
+  specs:
+    - id: filebrowser
+      displayName: File Browser
+      containerImage: openanalytics/shinyproxy-filebrowser
+      port: 8080
+      container-volumes: [ "/tmp/filebrowser-demo:/mnt" ]
+      container-env:
+        ROOT_PATH: "/mnt"
+        PUID: "1000"
+        PGID: "1000"
 ```
 
 **Note**: the `PUID` and `PGID` variables should be changed to match the owner
@@ -61,43 +63,45 @@ and group of the mounted directory respectively.
 On Kubernetes a PVC can be mounted, for example using [EFS](https://aws.amazon.com/efs/):
 
 ```yaml
-- id: filebrowser
-  displayName: File Browser
-  containerImage: openanalytics/shinyproxy-filebrowser
-  port: 80
-  container-env:
-    ROOT_PATH: "/srv/Shared"
-    PUID: "1000"
-    PGID: "1000"
-    kubernetes-pod-patches: |
-      - op: add
-        path: /spec/volumes
-        value:
-          - name: shared
-            persistentVolumeClaim:
-              claimName: "sp-shared-pvc-efs-#{oidcUser.attributes['sub']}"
-      - op: add
-        path: /spec/containers/0/volumeMounts
-        value:
-          - mountPath: "/srv/Shared"
-            name: shared
-    kubernetes-additional-persistent-manifests:
-      - |
-        apiVersion: v1
-        kind: PersistentVolumeClaim
-        metadata:
-          name: "sp-shared-pvc-efs-#{oidcUser.attributes['sub']}"
-          annotations:
-            openanalytics.eu/sp-user-id: #{proxy.getRuntimeValue('SHINYPROXY_USERNAME')}
-            openanalytics.eu/sp-additional-manifest-policy: Patch
-        spec:
-          persistentVolumeReclaimPolicy: Retain
-          storageClassName: efs-sc
-          accessModes:
-            - ReadWriteMany
-          resources:
-            requests:
-              storage: 1Gi # Note this size does not matter, since EFS is an "elastic" file system it does not have a maximum size
+proxy:
+  specs:
+    - id: filebrowser
+      displayName: File Browser
+      containerImage: openanalytics/shinyproxy-filebrowser
+      port: 8080
+      container-env:
+        ROOT_PATH: "/srv/Shared"
+        PUID: "1000"
+        PGID: "1000"
+        kubernetes-pod-patches: |
+          - op: add
+            path: /spec/volumes
+            value:
+              - name: shared
+                persistentVolumeClaim:
+                  claimName: "sp-shared-pvc-efs-#{oidcUser.attributes['sub']}"
+          - op: add
+            path: /spec/containers/0/volumeMounts
+            value:
+              - mountPath: "/srv/Shared"
+                name: shared
+        kubernetes-additional-persistent-manifests:
+          - |
+            apiVersion: v1
+            kind: PersistentVolumeClaim
+            metadata:
+              name: "sp-shared-pvc-efs-#{oidcUser.attributes['sub']}"
+              annotations:
+                openanalytics.eu/sp-user-id: #{proxy.getRuntimeValue('SHINYPROXY_USERNAME')}
+                openanalytics.eu/sp-additional-manifest-policy: Patch
+            spec:
+              persistentVolumeReclaimPolicy: Retain
+              storageClassName: efs-sc
+              accessModes:
+                - ReadWriteMany
+              resources:
+                requests:
+                  storage: 1Gi # Note this size does not matter, since EFS is an "elastic" file system it does not have a maximum size
 ```
 
 ## Screenshot
